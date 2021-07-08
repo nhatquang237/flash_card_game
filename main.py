@@ -225,6 +225,10 @@ def next_question():
         v.set(None)
     else:
         v.set(user_answer_list[current_question-1])
+        if random_question_list[current_question-1][v.get()-1] == random_question_list[current_question-1][-1]:
+            list_of_radiobutton[v.get()-1].config(selectcolor = 'green')
+        else:
+            list_of_radiobutton[v.get()-1].config(selectcolor = 'red')
     
     for i in range(4):
         list_of_radiobutton[i].config(text=ws.cell(random_question_list[current_question-1][i],3).value)                                     
@@ -233,7 +237,7 @@ def next_question():
 
    
 def back_question():
-    global current_question,v
+    global current_question,v,list_of_radiobutton
     
     if current_question ==1:
         pass
@@ -244,13 +248,17 @@ def back_question():
         v.set(None)
     else:
         v.set(user_answer_list[current_question-1])
+        if random_question_list[current_question-1][v.get()-1] == random_question_list[current_question-1][-1]:
+            list_of_radiobutton[v.get()-1].config(selectcolor = 'green')
+        else:
+            list_of_radiobutton[v.get()-1].config(selectcolor = 'red')
         
     for i in range(4):
         list_of_radiobutton[i].config(text=ws.cell(random_question_list[current_question-1][i],3).value)
                                       
     question_textvariable.set(ws.cell(random_question_list[current_question-1][4],1).value)
     question_No_textvariable.set(str(current_question) + "/" + str(number_words))
-    
+
 
 ##def play(file):
 ##    if file == 'correct':
@@ -258,6 +266,7 @@ def back_question():
 ##    else:
 ##        playsound("sounds/wrong.mp3")
     
+
 
 def select_answer(value):    
     user_answer_list[current_question-1]=value
@@ -278,7 +287,7 @@ def select_answer(value):
 def exercise():
     global current_question,question_No_textvariable,question,random_question_list,list_of_radiobutton,question_textvariable,current_score,score_variable,v
     newWindow = Toplevel(window)
-    newWindow.geometry("800x526")
+    newWindow.geometry("800x626")
     newWindow.resizable(False, False)
     newWindow.title("Exercise")
     newWindow.config(padx =50, pady = 50, bg = BACKGROUND_COLOR)
@@ -303,18 +312,6 @@ def exercise():
     v = IntVar()
     list_of_radiobutton = [1,2,3,4]
     for i in range(4):
-##        if random_question_list[0][i] == random_question_list[0][-1]:
-##            list_of_radiobutton[i] = Radiobutton(newWindow,
-##                                     text = ws.cell(random_question_list[0][i],3).value,
-##                                     width=30,                                             
-##                                     font=("Times", 20), variable = v,
-##                                     highlightthickness=0, bd = 0,
-##                                     value = i+1,
-##                                     indicator = 0,
-##                                     selectcolor = 'green',
-##                                     command=lambda:select_answer(v.get()))
-##        else:
-
         list_of_radiobutton[i] = Radiobutton(newWindow,
                                              text = ws.cell(random_question_list[0][i],3).value,
                                              width=30,                                             
@@ -323,6 +320,7 @@ def exercise():
                                              value = i+1,
                                              indicator = 0,
                                              selectcolor = 'red',
+                                             wraplength = 450,
                                              command=lambda:select_answer(v.get()))
         
 
